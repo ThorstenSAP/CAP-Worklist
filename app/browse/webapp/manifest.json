@@ -1,0 +1,107 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+      "id": "worklist",
+      "type": "application",
+      "title": "Worklist",
+      "description": "Worklist",
+      "i18n": "i18n/i18n.properties",
+      "dataSources": {
+        "CatalogService": {
+          "uri": "/browse/",
+          "type": "OData",
+          "settings": {
+            "odataVersion": "4.0"
+          }
+        }
+      },
+      "-sourceTemplate": {
+        "id": "ui5template.basicSAPUI5ApplicationProject",
+        "-id": "ui5template.smartTemplate",
+        "-version": "1.40.12"
+      }
+    },
+    "sap.ui5": {
+      "dependencies": {
+        "libs": {
+          "sap.fe": {}
+        }
+      },
+      "models": {
+        "i18n": {
+          "type": "sap.ui.model.resource.ResourceModel",
+          "uri": "i18n/i18n.properties"
+        },
+        "": {
+          "dataSource": "CatalogService",
+          "settings": {
+            "synchronizationMode": "None",
+            "operationMode": "Server",
+            "autoExpandSelect": true,
+            "earlyRequests": true,
+            "groupProperties": {
+              "default": {
+                "submit": "Auto"
+              }
+            }
+          }
+        }
+      },
+      "routing": {
+        "routes": [
+          {
+            "pattern": ":?query:",
+            "name": "ToDosList",
+            "target": "ToDosList"
+          },
+          {
+            "pattern": "ToDos({key}):?query:",
+            "name": "ToDosDetails",
+            "target": "ToDosDetails"
+          }
+        ],
+        "targets": {
+          "ToDosList": {
+            "type": "Component",
+            "id": "ToDosList",
+            "name": "sap.fe.templates.ListReport",
+            "options": {
+              "settings": {
+                "entitySet": "ToDos",
+                "navigation": {
+                  "ToDos": {
+                    "detail": {
+                      "route": "ToDosDetails"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "ToDosDetails": {
+            "type": "Component",
+            "id": "ToDosDetails",
+            "name": "sap.fe.templates.ObjectPage",
+            "options": {
+              "settings": {
+                "entitySet": "ToDos"
+              }
+            }
+          }
+        }
+      },
+      "contentDensities": {
+        "compact": true,
+        "cozy": true
+      }
+    },
+    "sap.ui": {
+      "technology": "UI5",
+      "fullWidth": false
+    },
+    "sap.fiori": {
+      "registrationIds": [],
+      "archeType": "transactional"
+    }
+  }
+  
